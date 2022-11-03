@@ -1,0 +1,21 @@
+﻿
+@model ResultadoViewModel
+@{
+    Layout = "_LayoutLogin";
+    ViewBag.Title = "Painel Administrativo v1.0";
+
+    var tempData = TempData["ErroAutenticacao"];
+    var erroAutenticacao = tempData != null ? tempData.ToString() : string.Empty;
+}
+
+@if (Model.Erro != null && Model.Erro.Count > 0)
+{
+    <h2 class="display-4">@Model.Erro.FirstOrDefault()</h2>
+}
+else
+{
+    <div class="fa-align-center">
+        <h2 class="display-4">@(Model.Sucesso ? "E-mail Confirmado com sucesso!" : "E-mail já foi confirmado")</h2>
+        <a href="/Painel/Secure/Login" class="display-4">Clique aqui para o login</a>
+    </div>
+}

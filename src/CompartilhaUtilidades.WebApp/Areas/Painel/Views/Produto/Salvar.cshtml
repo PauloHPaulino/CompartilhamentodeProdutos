@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+@model CompartilhaUtilidades.Model.Dtos.ProdutoDto
+@using CompartilhaUtilidades.Model.Enumeradores
+@section Scripts
+
+
+{
+    <script src="~/js/Produto/SalvarProduto.js" asp-append-version="true"></script>
+
+}
+
+<html>
+<head>
+
+    <link rel="stylesheet" href="Style"/>
+
+</head>
+<body>
+
+       <br><br>
+    <a class="btn btn-primary" asp-area="Painel" asp-controller="Produto" asp-action="Consultar"><i class="fas fa-arrow-circle-left"></i> Voltar</a>
+    <br><br>
+
+    <div class="row">
+
+        <div class="col">
+            <h2>@ViewData["Title"]</h2>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <form id="frm-produtos">
+                @Html.HiddenFor(model => model.IdProduto)
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label>Título</label>
+                        @Html.TextBoxFor(model => model.Titulo, new { @class = "form-control", placeholder = "Título do anúncio" })
+                        @Html.ValidationMessageFor(model => model.Titulo)
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Descrição</label>
+                        <textarea cols=62 id="descrição" rows="4" name="descrição" minlength="10" maxlength="250" required wrap="hard" placeholder="Descreva seu produto"></textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label>O que deseja fazer?</label>
+                        <select asp-for="Acao" class="form-control selectpicker" asp-items="Html.GetEnumSelectList<TipoCompartilhamento>()">
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Categoria</label>
+                        <select asp-for="Categoria" class="form-control selectpicker" asp-items="Html.GetEnumSelectList<Tags>()">
+                        </select>
+                    </div>
+                </div>
+
+                @using (Html.BeginForm("Index",
+         "Produto",
+         FormMethod.Post,
+         new { enctype = "multipart/form-data" }))
+                {
+                    <label for="file">Imagem do Produto:</label>
+                    <input type="file" name="file" id="file" />
+                    <br><br>
+                    <input type="submit" value="Salvar Arquivo" />
+                    <br><br>
+                    @ViewBag.Message
+                }
+                <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
+                    <a id="btn-salvar" class="btn btn-success" asp-area="Painel" asp-controller="Produto" asp-action="Salvar">Salvar Anúncio</a>
+                    <br><br>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+
+</html>
+
+    
+

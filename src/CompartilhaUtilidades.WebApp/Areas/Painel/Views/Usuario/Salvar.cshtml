@@ -1,0 +1,128 @@
+﻿@model CompartilhaUtilidades.Model.Dtos.UsuarioDto
+@using CompartilhaUtilidades.Model.Enumeradores
+@section Scripts
+    {
+    <script src="~/js/Usuario/SalvarUsuario.js" asp-append-version="true"></script>
+}
+
+<div class="row">
+    <div class="col">
+        <h2>@ViewData["Title"]</h2>
+    </div>
+</div>
+<a class="btn btn-primary" asp-area="Painel" asp-controller="Usuario" asp-action="Consultar"><i class="fas fa-arrow-circle-left"></i> Voltar</a>
+
+<div class="row">
+    <div class="col">
+        <form id="frm-usuario">
+            @Html.ValidationSummary(false)
+            @Html.HiddenFor(model => model.IdUsuario)
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label asp-for="Nome">Nome</label>
+                    @Html.TextBoxFor(model => model.Nome, new { @class = "form-control", placeholder = "Nome completo" })
+                    @Html.ValidationMessageFor(model => model.Nome)
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label asp-for="Login">Login</label>
+                    @if (Model.IdUsuario == 0)
+                    {
+                        @Html.TextBoxFor(model => model.Login, new { @class = "form-control", placeholder = "Login" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.Login, new { @class = "form-control", placeholder = "Login", @readonly = "readonly" })
+                    }
+                    @Html.ValidationMessageFor(model => model.Login)
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputEmail4">Email</label>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "E-mail", @type = "Email", id = "inputEmail4" })
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputPassword4">Senha</label>             
+                    @Html.PasswordFor(model => model.Senha, new { @class = "form-control", placeholder = "Senha" })
+                 </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="Sexo">Sexo</label>
+                    <select asp-for="Sexo" class="form-control selectpicker" asp-items="Html.GetEnumSelectList<SexoEnum>()">
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="DataDeNascimento">Data De Nascimento</label>
+                    @Html.TextBoxFor(model => model.DataDeNascimento, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", placeholder = "Data de Nascimento" })
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="Contato.TelefoneFixo">Telefone Fixo</label>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    @Html.TextBoxFor(model => model.Contato.TelefoneFixo, new { @class = "form-control", id = "tel-fixo", placeholder = "Telefone Fixo" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="Contato.TelefoneCelular">Celular</label>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    @Html.TextBoxFor(model => model.Contato.TelefoneCelular, new { @class = "form-control", placeholder = "Telefone Celular", id = "tel-celular" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="Contato.TelefoneRecado">Recado</label>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    @Html.TextBoxFor(model => model.Contato.TelefoneRecado, new { @class = "form-control", id = "tel-recado", placeholder = "Telefone Recado" })
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="Endereco.TipoResidencia">Tipo da residência</label>
+                    <select asp-for="Endereco.TipoResidencia" class="form-control selectpicker" asp-items="Html.GetEnumSelectList<TipoResidenciaEnum>()">
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-1">
+                    <label for="Endereco.Cep">Cep</label>
+                    @Html.TextBoxFor(model => model.Endereco.Cep, new { @class = "form-control", placeholder = "Cep", id = "cep", @onblur = "pesquisacep(this.value)" })
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="Endereco.Logradouro">Rua</label>
+                    @Html.TextBoxFor(model => model.Endereco.Logradouro, new { @class = "form-control", placeholder = "Logradouro", id = "rua" })
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="Endereco.Numero">Número</label>
+                    @Html.TextBoxFor(model => model.Endereco.Numero, new { @class = "form-control", placeholder = "Número" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="Endereco.Bairro">Bairro</label>
+                    @Html.TextBoxFor(model => model.Endereco.Bairro, new { @class = "form-control", placeholder = "Bairro", id = "bairro" })
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="Endereco.Cidade">Cidade</label>
+                    @Html.TextBoxFor(model => model.Endereco.Cidade, new { @class = "form-control", placeholder = "Cidade", id = "cidade" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="Endereco.Estado">Estado</label>
+                    @Html.TextBoxFor(model => model.Endereco.Estado, new { @class = "form-control", placeholder = "Estado", id = "uf" })
+                </div>
+            </div>
+            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
+                <a id="btn-salvar" class="btn btn-success" asp-area="Painel" asp-controller="Usuario" asp-action="Salvar">Salvar</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+
+
